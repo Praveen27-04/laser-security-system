@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LaserGuard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+
+            width: 100vw;
+            height: 100vh;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 72% 50%,
+                    #1b0b50 0%,
+                    #0b0430 32%,
+                    #030014 72%,
+                    #010006 100%
+                );
+
+            color: white;
+
+            font-family: Arial, sans-serif;
+
+            position: relative;
+        }
+
+
+        /* =========================================
+           BACKGROUND GRID
+        ========================================= */
+
+        body::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(0,245,255,0.035) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(0,245,255,0.035) 1px,
+                    transparent 1px
+                );
+
+            background-size: 55px 55px;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================
+           BACKGROUND GLOW
+        ========================================= */
+
+        .blue-glow {
+
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            left: -180px;
+            top: 15%;
+
+            border-radius: 50%;
+
+            background: #0055ff;
+
+            opacity: 0.12;
+
+            filter: blur(130px);
+        }
+
+
+        .purple-glow {
+
+            position: absolute;
+
+            width: 550px;
+            height: 550px;
+
+            right: -180px;
+            top: 10%;
+
+            border-radius: 50%;
+
+            background: #7b2cff;
+
+            opacity: 0.16;
+
+            filter: blur(130px);
+        }
+
+
+        .pink-glow {
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            right: 20%;
+            bottom: -150px;
+
+            border-radius: 50%;
+
+            background: #ff20d9;
+
+            opacity: 0.12;
+
+            filter: blur(100px);
+        }
+
+
+        /* =========================================
+           MAIN LAYOUT
+        ========================================= */
+
+        .page {
+
+            width: 100%;
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* =========================================
+           LEFT CONTENT
+        ========================================= */
+
+        .left-content {
+
+            width: 43%;
+
+            padding-left: 8%;
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+
+        .small-title {
+
+            font-family: Arial, sans-serif;
+
+            font-size: 10px;
+
+            letter-spacing: 5px;
+
+            color: #00f5ff;
+
+            margin-bottom: 18px;
+
+            text-shadow:
+                0 0 10px #00f5ff;
+        }
+
+
+        .main-title {
+
+            font-family: Arial, sans-serif;
+
+            font-size: clamp(52px, 6vw, 90px);
+
+            line-height: 0.88;
+
+            font-weight: 900;
+
+            letter-spacing: -4px;
+        }
+
+
+        .main-title .white {
+
+            color: white;
+
+            text-shadow:
+                0 0 15px rgba(255,255,255,0.2);
+        }
+
+
+        .main-title .gradient {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #00f5ff,
+                    #5d5cff,
+                    #b62cff,
+                    #ff20d9
+                );
+
+            -webkit-background-clip: text;
+
+            background-clip: text;
+
+            color: transparent;
+
+            text-shadow: none;
+        }
+
+
+        .title-line {
+
+            width: 120px;
+
+            height: 2px;
+
+            margin-top: 28px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #00f5ff,
+                    #8b2eff,
+                    #ff20d9,
+                    transparent
+                );
+
+            box-shadow:
+                0 0 12px #00f5ff;
+        }
+
+
+        /* =========================================
+           INSTRUCTION
+        ========================================= */
+
+        .instruction {
+
+            margin-top: 25px;
+
+            font-size: 11px;
+
+            line-height: 1.8;
+
+            letter-spacing: 2px;
+
+            color: #777f9e;
+
+            text-transform: uppercase;
+        }
+
+
+        .instruction strong {
+
+            color: #ff20d9;
+
+            font-weight: 700;
+
+            text-shadow:
+                0 0 10px #ff20d9;
+        }
+
+
+        /* =========================================
+           RIGHT LOCK AREA
+        ========================================= */
+
+        .lock-area {
+
+            width: 57%;
+
+            height: 100%;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            position: relative;
+        }
+
+
+        /* =========================================
+           LOCK CENTER GLOW
+        ========================================= */
+
+        .center-glow {
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0,245,255,0.4),
+                    rgba(124,58,237,0.2),
+                    transparent 70%
+                );
+
+            filter: blur(25px);
+
+            animation:
+                centerPulse 2.5s ease-in-out infinite alternate;
+        }
+
+
+        @keyframes centerPulse {
+
+            from {
+                transform: scale(0.85);
+                opacity: 0.65;
+            }
+
+            to {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================================
+           RINGS
+        ========================================= */
+
+        .ring {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            border: 1px solid;
+        }
+
+
+        .ring-one {
+
+            width: 470px;
+            height: 470px;
+
+            border-color:
+                rgba(0,245,255,0.25);
+
+            border-left-color:
+                #00f5ff;
+
+            border-bottom-color:
+                #00f5ff;
+
+            box-shadow:
+                0 0 10px rgba(0,245,255,0.15);
+
+            animation:
+                rotateOne 16s linear infinite;
+        }
+
+
+        .ring-two {
+
+            width: 365px;
+            height: 365px;
+
+            border-color:
+                rgba(139,46,255,0.3);
+
+            border-right-color:
+                #8b2eff;
+
+            border-top-color:
+                #8b2eff;
+
+            animation:
+                rotateTwo 11s linear infinite;
+        }
+
+
+        .ring-three {
+
+            width: 270px;
+            height: 270px;
+
+            border-color:
+                rgba(255,32,217,0.3);
+
+            border-top-color:
+                #ff20d9;
+
+            border-left-color:
+                #ff20d9;
+
+            animation:
+                rotateOne 7s linear infinite;
+        }
+
+
+        @keyframes rotateOne {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        @keyframes rotateTwo {
+
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+
+        /* =========================================
+           LOCK
+        ========================================= */
+
+        .lock {
+
+            width: 155px;
+
+            height: 185px;
+
+            position: relative;
+
+            z-index: 20;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.25s ease,
+                filter 0.25s ease;
+        }
+
+
+        .lock:hover {
+
+            transform: scale(1.08);
+
+            filter:
+                drop-shadow(0 0 12px #00f5ff)
+                drop-shadow(0 0 30px #8b2eff)
+                drop-shadow(0 0 45px #ff20d9);
+        }
+
+
+        /* =========================================
+           LOCK SHACKLE
+        ========================================= */
+
+        .shackle {
+
+            position: absolute;
+
+            width: 92px;
+            height: 92px;
+
+            left: 31px;
+            top: 0;
+
+            border: 12px solid #00f5ff;
+
+            border-bottom: none;
+
+            border-radius:
+                60px 60px 0 0;
+
+            box-shadow:
+
+                0 0 10px #00f5ff,
+
+                0 0 25px #00f5ff,
+
+                inset 0 0 10px #00f5ff;
+
+            z-index: 2;
+
+            transform-origin: bottom center;
+        }
+
+
+        /* =========================================
+           LOCK BODY
+        ========================================= */
+
+        .lock-body {
+
+            position: absolute;
+
+            bottom: 0;
+
+            width: 155px;
+
+            height: 110px;
+
+            border-radius: 15px;
+
+            border: 2px solid #00f5ff;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #18104b,
+                    #05021a
+                );
+
+            box-shadow:
+
+                0 0 15px #00f5ff,
+
+                0 0 35px rgba(0,245,255,0.5),
+
+                inset 0 0 30px
+                rgba(0,245,255,0.15);
+        }
+
+
+        /* =========================================
+           KEYHOLE
+        ========================================= */
+
+        .keyhole {
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+        }
+
+
+        .key-circle {
+
+            width: 29px;
+            height: 29px;
+
+            border-radius: 50%;
+
+            border: 4px solid white;
+
+            box-shadow:
+
+                0 0 8px white,
+
+                0 0 18px white;
+        }
+
+
+        .key-line {
+
+            width: 8px;
+
+            height: 35px;
+
+            margin:
+                -3px auto 0;
+
+            background: white;
+
+            border-radius: 6px;
+
+            box-shadow:
+                0 0 10px white;
+        }
+
+
+        /* =========================================
+           SCAN LINE
+        ========================================= */
+
+        .scan {
+
+            position: absolute;
+
+            width: 500px;
+
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #00f5ff,
+                    white,
+                    #ff20d9,
+                    transparent
+                );
+
+            box-shadow:
+                0 0 12px #00f5ff,
+                0 0 30px #ff20d9;
+
+            opacity: 0;
+
+            animation:
+                scan 3s ease-in-out infinite;
+        }
+
+
+        @keyframes scan {
+
+            0% {
+
+                transform:
+                    translateY(-250px);
+
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            75% {
+                opacity: 1;
+            }
+
+            100% {
+
+                transform:
+                    translateY(250px);
+
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================================
+           PORTAL
+        ========================================= */
+
+        .portal {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    white 0%,
+                    #00f5ff 8%,
+                    #8b2eff 28%,
+                    #ff20d9 50%,
+                    #050018 72%,
+                    #000 100%
+                );
+
+            box-shadow:
+
+                0 0 30px #00f5ff,
+
+                0 0 80px #8b2eff,
+
+                0 0 150px #ff20d9;
+
+            transform:
+                translate(-50%, -50%)
+                scale(0);
+
+            z-index: 100;
+
+            pointer-events: none;
+
+            opacity: 0;
+        }
+
+
+        /* =========================================
+           ACTIVATION — PORTAL TRANSITION
+        ========================================= */
+
+        body.activate .portal {
+
+            left: 72%;
+
+            top: 50%;
+
+            opacity: 1;
+
+            animation:
+                portalExpand 1.35s
+                cubic-bezier(.7,0,.15,1)
+                forwards;
+        }
+
+
+        @keyframes portalExpand {
+
+            0% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0);
+            }
+
+            20% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(3);
+            }
+
+            45% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(15);
+            }
+
+            70% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(50);
+            }
+
+            100% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(130);
+            }
+        }
+
+
+        /* =========================================
+           SHACKLE OPENS
+        ========================================= */
+
+        body.activate .shackle {
+
+            animation:
+                unlockShackle
+                0.65s
+                cubic-bezier(.2,.8,.2,1)
+                forwards;
+        }
+
+
+        @keyframes unlockShackle {
+
+            0% {
+
+                transform:
+                    rotate(0deg)
+                    translateY(0);
+            }
+
+            55% {
+
+                transform:
+                    rotate(-20deg)
+                    translateY(-18px);
+            }
+
+            100% {
+
+                transform:
+                    rotate(-38deg)
+                    translateY(-45px);
+
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================================
+           KEYHOLE FLASH
+        ========================================= */
+
+        body.activate .keyhole {
+
+            animation:
+                keyFlash
+                0.7s
+                ease-out
+                forwards;
+        }
+
+
+        @keyframes keyFlash {
+
+            0% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(1);
+
+                filter:
+                    drop-shadow(0 0 5px white);
+            }
+
+            45% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(2);
+
+                filter:
+                    drop-shadow(0 0 25px white)
+                    drop-shadow(0 0 55px #00f5ff);
+            }
+
+            100% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0);
+
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================================
+           RINGS BURST
+        ========================================= */
+
+        body.activate .ring {
+
+            animation:
+                ringBurst
+                0.9s
+                ease-in
+                forwards;
+        }
+
+
+        @keyframes ringBurst {
+
+            0% {
+
+                transform:
+                    scale(1)
+                    rotate(0deg);
+
+                opacity: 1;
+            }
+
+            100% {
+
+                transform:
+                    scale(2.5)
+                    rotate(720deg);
+
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================================
+           LEFT TEXT EXIT
+        ========================================= */
+
+        body.activate .left-content {
+
+            animation:
+                textExit
+                0.55s
+                ease-in
+                forwards;
+        }
+
+
+        @keyframes textExit {
+
+            to {
+
+                transform:
+                    translateX(-80px);
+
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================================
+           SCREEN DARKEN
+        ========================================= */
+
+        body.activate::after {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at 72% 50%,
+                    transparent 0%,
+                    rgba(0,0,0,0.1) 20%,
+                    rgba(0,0,0,0.8) 60%,
+                    #000 100%
+                );
+
+            z-index: 90;
+
+            pointer-events: none;
+
+            animation:
+                darken 1.3s ease forwards;
+        }
+
+
+        @keyframes darken {
+
+            0% {
+                opacity: 0;
+            }
+
+            55% {
+                opacity: 0.25;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media(max-width:850px) {
+
+            .page {
+
+                flex-direction: column;
+
+                justify-content: center;
+            }
+
+
+            .left-content {
+
+                width: 100%;
+
+                padding-left: 30px;
+
+                position: absolute;
+
+                top: 12%;
+
+                text-align: center;
+            }
+
+
+            .main-title {
+
+                font-size: 45px;
+            }
+
+
+            .title-line {
+
+                margin-left: auto;
+
+                margin-right: auto;
+            }
+
+
+            .instruction {
+
+                font-size: 9px;
+            }
+
+
+            .lock-area {
+
+                width: 100%;
+
+                height: 100%;
+            }
+
+
+            .ring-one {
+
+                width: 350px;
+                height: 350px;
+            }
+
+
+            .ring-two {
+
+                width: 280px;
+                height: 280px;
+            }
+
+
+            .ring-three {
+
+                width: 210px;
+                height: 210px;
+            }
+
+
+            .lock {
+
+                transform: scale(0.8);
+            }
+
+
+            body.activate .portal {
+
+                left: 50%;
+
+                top: 55%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Background -->
+
+    <div class="blue-glow"></div>
+
+    <div class="purple-glow"></div>
+
+    <div class="pink-glow"></div>
+
+
+    <!-- Main page -->
+
+    <div class="page">
+
+
+        <!-- =================================
+             LEFT SIDE
+        ================================== -->
+
+        <section class="left-content">
+
+
+            <div class="small-title">
+                WELCOME TO
+            </div>
+
+
+            <h1 class="main-title">
+
+                <span class="white">
+                    SECURITY
+                </span>
+
+                <br>
+
+                <span class="gradient">
+                    SYSTEM
+                </span>
+
+            </h1>
+
+
+            <div class="title-line"></div>
+
+
+            <div class="instruction">
+
+                CLICK THE
+
+                <strong>
+                    LOCK
+                </strong>
+
+                TO ACTIVATE
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================
+             RIGHT SIDE LOCK
+        ================================== -->
+
+        <section class="lock-area">
+
+
+            <div class="center-glow"></div>
+
+
+            <!-- Rings -->
+
+            <div class="ring ring-one"></div>
+
+            <div class="ring ring-two"></div>
+
+            <div class="ring ring-three"></div>
+
+
+            <!-- Scan -->
+
+            <div class="scan"></div>
+
+
+            <!-- Lock -->
+
+            <div class="lock" id="lock">
+
+
+                <div class="shackle"></div>
+
+
+                <div class="lock-body">
+
+
+                    <div class="keyhole">
+
+                        <div class="key-circle"></div>
+
+                        <div class="key-line"></div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+    <!-- Portal -->
+
+    <div class="portal"></div>
+
+
+    <!-- =================================
+         JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+        const lock =
+            document.getElementById("lock");
+
+
+        lock.addEventListener(
+            "click",
+            function () {
+
+
+                /* Prevent double click */
+
+                if (
+                    document.body.classList.contains(
+                        "activate"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                /* Start transition */
+
+                document.body.classList.add(
+                    "activate"
+                );
+
+
+                /* Open dashboard */
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    },
+                    1350
+                );
+
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
