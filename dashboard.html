@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Laser Security System</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+    <!-- Animated background -->
+    <div class="grid"></div>
+    <div class="stars"></div>
+
+    <div class="glow cyan"></div>
+    <div class="glow purple"></div>
+    <div class="glow pink"></div>
+
+
+    <main class="dashboard">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="shield">
+                    🛡️
+                </div>
+
+                <div>
+                    <h1>LASER SECURITY</h1>
+                    <p>SMART INTRUSION DETECTION SYSTEM</p>
+                </div>
+
+            </div>
+
+
+            <div class="connection">
+
+                <span class="connection-dot"></span>
+
+                <span>SYSTEM ONLINE</span>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= MAIN STATUS ================= -->
+
+        <section class="main-status safe" id="mainStatusBox">
+
+            <div class="status-rings ring-one"></div>
+            <div class="status-rings ring-two"></div>
+
+            <div class="status-light" id="statusLight"></div>
+
+            <div class="status-content">
+
+                <span class="status-small">
+                    SECURITY STATUS
+                </span>
+
+                <h2 id="mainStatus">
+                    SYSTEM SECURE
+                </h2>
+
+                <p id="statusMessage">
+                    No intrusion detected
+                </p>
+
+                <div class="scanning">
+
+                    <span></span>
+                    SYSTEM MONITORING
+
+                </div>
+
+            </div>
+
+            <div class="scan-line"></div>
+
+        </section>
+
+
+        <!-- ================= STATUS CARDS ================= -->
+
+        <section class="cards">
+
+
+            <!-- LASER -->
+
+            <div class="card laser-card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        🔦
+                    </div>
+
+                    <div class="card-live">
+                        LIVE
+                    </div>
+
+                </div>
+
+                <h3>LASER STATUS</h3>
+
+                <strong id="laserStatus">
+                    ACTIVE
+                </strong>
+
+                <div class="laser-beam">
+
+                    <span></span>
+
+                </div>
+
+                <small>
+                    Beam monitoring
+                </small>
+
+            </div>
+
+
+            <!-- SENSOR -->
+
+            <div class="card sensor-card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        📡
+                    </div>
+
+                    <div class="card-live">
+                        LIVE
+                    </div>
+
+                </div>
+
+                <h3>SENSOR STATUS</h3>
+
+                <strong id="sensorStatus">
+                    NORMAL
+                </strong>
+
+                <div class="radar">
+
+                    <div class="radar-line"></div>
+
+                </div>
+
+                <small>
+                    Motion detection
+                </small>
+
+            </div>
+
+
+            <!-- BUZZER -->
+
+            <div class="card buzzer-card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        🔊
+                    </div>
+
+                    <div class="card-live">
+                        READY
+                    </div>
+
+                </div>
+
+                <h3>BUZZER</h3>
+
+                <strong id="buzzerStatus">
+                    OFF
+                </strong>
+
+                <div class="sound-wave">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+                <small>
+                    Alarm system
+                </small>
+
+            </div>
+
+
+            <!-- SYSTEM -->
+
+            <div class="card system-card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        🌐
+                    </div>
+
+                    <div class="card-live">
+                        LIVE
+                    </div>
+
+                </div>
+
+                <h3>SYSTEM</h3>
+
+                <strong class="online-text">
+                    ONLINE
+                </strong>
+
+                <div class="system-orbit">
+
+                    <span></span>
+
+                </div>
+
+                <small>
+                    Network connection
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECENT EVENT ================= -->
+
+        <section class="panel recent-panel">
+
+            <div class="panel-header">
+
+                <div class="panel-title">
+
+                    <span>📢</span>
+
+                    <div>
+                        <h2>LIVE SECURITY EVENT</h2>
+                        <p>Real-time system activity</p>
+                    </div>
+
+                </div>
+
+                <div class="event-counter">
+
+                    EVENT
+                    <span id="eventNumber">
+                        0
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="recent-event" id="recentEvent">
+
+                <div class="event-status-dot"></div>
+
+                <div class="event-information">
+
+                    <h3 id="recentTitle">
+                        System initialized
+                    </h3>
+
+                    <p id="recentDescription">
+                        Security monitoring started
+                    </p>
+
+                </div>
+
+                <div class="event-time" id="recentTime">
+                    --:--:--
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= EVENT HISTORY ================= -->
+
+        <section class="panel history-panel">
+
+            <div class="panel-header">
+
+                <div class="panel-title">
+
+                    <span>📜</span>
+
+                    <div>
+                        <h2>EVENT HISTORY</h2>
+                        <p>Security activity log</p>
+                    </div>
+
+                </div>
+
+                <div class="history-live">
+                    ● LIVE LOG
+                </div>
+
+            </div>
+
+
+            <div class="history-list" id="historyList">
+
+                <!-- Events will be added here -->
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <span>
+                SECURITY PROTOCOL ACTIVE
+            </span>
+
+            <span>
+                ENCRYPTED MONITORING
+            </span>
+
+            <span>
+                v1.0
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>
