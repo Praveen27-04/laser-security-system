@@ -1,324 +1,364 @@
-/* ================= ELEMENTS ================= */
+// ==========================================
+// LASER SECURITY SYSTEM - DASHBOARD
+// ==========================================
 
-const mainStatusBox =
-    document.getElementById("mainStatusBox");
+// ---------- ELEMENTS ----------
 
-const mainStatus =
-    document.getElementById("mainStatus");
+const mainStatusBox = document.getElementById("mainStatusBox");
+const mainStatus = document.getElementById("mainStatus");
+const statusMessage = document.getElementById("statusMessage");
 
-const statusMessage =
-    document.getElementById("statusMessage");
+const laserStatus = document.getElementById("laserStatus");
+const sensorStatus = document.getElementById("sensorStatus");
+const buzzerStatus = document.getElementById("buzzerStatus");
+const systemStatus = document.getElementById("systemStatus");
 
-const laserStatus =
-    document.getElementById("laserStatus");
+const eventNumber = document.getElementById("eventNumber");
 
-const sensorStatus =
-    document.getElementById("sensorStatus");
+const recentTitle = document.getElementById("recentTitle");
+const recentDescription = document.getElementById("recentDescription");
+const recentTime = document.getElementById("recentTime");
+const recentEvent = document.getElementById("recentEvent");
 
-const buzzerStatus =
-    document.getElementById("buzzerStatus");
-
-const eventNumber =
-    document.getElementById("eventNumber");
-
-const recentTitle =
-    document.getElementById("recentTitle");
-
-const recentDescription =
-    document.getElementById("recentDescription");
-
-const recentTime =
-    document.getElementById("recentTime");
-
-const recentEvent =
-    document.getElementById("recentEvent");
-
-const historyList =
-    document.getElementById("historyList");
+const historyList = document.getElementById("historyList");
 
 
-/* ================= EVENT COUNTER ================= */
+// ==========================================
+// EVENT COUNTER
+// ==========================================
 
 let eventCount = 0;
 
 
-/* ================= TIME ================= */
+// ==========================================
+// GET CURRENT TIME
+// ==========================================
 
 function getTime() {
 
     const now = new Date();
 
     return now.toLocaleTimeString([], {
-
         hour: "2-digit",
-
         minute: "2-digit",
-
         second: "2-digit"
-
     });
-
 }
 
 
-/* ================= ADD HISTORY ================= */
+// ==========================================
+// ADD EVENT TO HISTORY
+// ==========================================
 
 function addHistory(message, status, isAlert = false) {
 
     eventCount++;
 
-    eventNumber.textContent = eventCount;
-
-
-    const row =
-        document.createElement("div");
-
-    row.className = "history-row";
-
-
-    row.innerHTML = `
-
-        <span class="history-number">
-            #${eventCount}
-        </span>
-
-        <span class="history-time">
-            ${getTime()}
-        </span>
-
-        <span class="history-message">
-            ${message}
-        </span>
-
-        <span class="history-status ${isAlert ? "alert" : ""}">
-            ${status}
-        </span>
-
-    `;
-
-
-    historyList.prepend(row);
-
-
-    /*
-       Keep only latest 15 events
-       so page doesn't become too heavy.
-    */
-
-    if (historyList.children.length > 15) {
-
-        historyList.removeChild(
-            historyList.lastElementChild
-        );
-
+    // Update event number
+    if (eventNumber) {
+        eventNumber.textContent = eventCount;
     }
 
+    const event = document.createElement("div");
+
+    event.className = "history-item";
+
+    if (isAlert) {
+        event.classList.add("alert");
+    }
+
+    event.innerHTML = `
+        <div class="history-number">
+            #${eventCount}
+        </div>
+
+        <div class="history-content">
+            <strong>${message}</strong>
+            <span>${status}</span>
+        </div>
+
+        <div class="history-time">
+            ${getTime()}
+        </div>
+    `;
+
+    if (historyList) {
+
+        // Newest event on top
+        historyList.prepend(event);
+
+        // Keep only latest 20 events
+        while (historyList.children.length > 20) {
+            historyList.removeChild(historyList.lastChild);
+        }
+    }
 }
 
 
-/* ================= UPDATE RECENT EVENT ================= */
+// ==========================================
+// UPDATE RECENT EVENT
+// ==========================================
 
 function updateRecent(title, description, alert = false) {
 
-    recentTitle.textContent = title;
-
-    recentDescription.textContent = description;
-
-    recentTime.textContent = getTime();
-
-
-    recentEvent.classList.remove("new-event");
-
-    void recentEvent.offsetWidth;
-
-    recentEvent.classList.add("new-event");
-
-
-    const dot =
-        document.querySelector(".event-status-dot");
-
-
-    if (alert) {
-
-        dot.style.background = "#ff416c";
-
-        dot.style.boxShadow =
-            "0 0 10px #ff416c, 0 0 25px #ff416c";
-
-        recentEvent.style.borderLeftColor =
-            "#ff416c";
-
-    } else {
-
-        dot.style.background = "#00ffae";
-
-        dot.style.boxShadow =
-            "0 0 10px #00ffae, 0 0 25px #00ffae";
-
-        recentEvent.style.borderLeftColor =
-            "#00ffae";
-
+    if (recentTitle) {
+        recentTitle.textContent = title;
     }
 
+    if (recentDescription) {
+        recentDescription.textContent = description;
+    }
+
+    if (recentTime) {
+        recentTime.textContent = getTime();
+    }
+
+    if (recentEvent) {
+
+        if (alert) {
+            recentEvent.classList.add("alert");
+        } else {
+            recentEvent.classList.remove("alert");
+        }
+    }
 }
 
 
-/* ================= SAFE MODE ================= */
+// ==========================================
+// SECURE MODE
+// ==========================================
 
 function safeMode() {
 
-    mainStatusBox.classList.remove("danger");
+    // Main status
+    if (mainStatus) {
+        mainStatus.textContent = "SYSTEM SECURE";
+    }
 
-    mainStatusBox.classList.add("safe");
+    if (statusMessage) {
+        statusMessage.textContent = "Laser beam detected. Area is secure.";
+    }
 
+    // Main box
+    if (mainStatusBox) {
+        mainStatusBox.classList.remove("danger");
+        mainStatusBox.classList.add("secure");
+    }
 
-    mainStatus.textContent =
-        "SYSTEM SECURE";
+    // Status cards
+    if (laserStatus) {
+        laserStatus.textContent = "ACTIVE";
+    }
 
+    if (sensorStatus) {
+        sensorStatus.textContent = "CLEAR";
+    }
 
-    statusMessage.textContent =
-        "No intrusion detected";
+    if (buzzerStatus) {
+        buzzerStatus.textContent = "OFF";
+    }
 
+    if (systemStatus) {
+        systemStatus.textContent = "ONLINE";
+    }
 
-    laserStatus.textContent =
-        "ACTIVE";
-
-    laserStatus.style.color =
-        "#00ffae";
-
-
-    sensorStatus.textContent =
-        "NORMAL";
-
-    sensorStatus.style.color =
-        "#00ffae";
-
-
-    buzzerStatus.textContent =
-        "OFF";
-
-    buzzerStatus.style.color =
-        "#ffffff";
-
-
+    // Recent event
     updateRecent(
-        "System secure",
-        "Laser beam and sensors operating normally",
+        "SYSTEM SECURE",
+        "Laser beam is active. No intrusion detected.",
         false
     );
 
-
+    // History
     addHistory(
-        "Security system normal",
-        "✓ SAFE",
+        "System Secure",
+        "Laser beam detected",
         false
     );
-
 }
 
 
-/* ================= INTRUSION MODE ================= */
+// ==========================================
+// INTRUSION MODE
+// ==========================================
 
 function intrusionMode() {
 
-    mainStatusBox.classList.remove("safe");
+    // Main status
+    if (mainStatus) {
+        mainStatus.textContent = "INTRUSION DETECTED";
+    }
 
-    mainStatusBox.classList.add("danger");
+    if (statusMessage) {
+        statusMessage.textContent = "Laser beam interrupted! Security alert activated.";
+    }
 
+    // Main box
+    if (mainStatusBox) {
+        mainStatusBox.classList.remove("secure");
+        mainStatusBox.classList.add("danger");
+    }
 
-    mainStatus.textContent =
-        "INTRUSION DETECTED";
+    // Status cards
+    if (laserStatus) {
+        laserStatus.textContent = "INTERRUPTED";
+    }
 
+    if (sensorStatus) {
+        sensorStatus.textContent = "ALERT";
+    }
 
-    statusMessage.textContent =
-        "Laser beam interruption detected";
+    if (buzzerStatus) {
+        buzzerStatus.textContent = "ON";
+    }
 
+    if (systemStatus) {
+        systemStatus.textContent = "ALERT";
+    }
 
-    laserStatus.textContent =
-        "INTERRUPTED";
-
-    laserStatus.style.color =
-        "#ff416c";
-
-
-    sensorStatus.textContent =
-        "ALERT";
-
-    sensorStatus.style.color =
-        "#ff416c";
-
-
-    buzzerStatus.textContent =
-        "ON";
-
-    buzzerStatus.style.color =
-        "#ff416c";
-
-
+    // Recent event
     updateRecent(
-        "⚠ Intrusion detected",
-        "Laser beam interruption detected",
+        "INTRUSION DETECTED",
+        "Laser beam interrupted. Security alarm activated.",
         true
     );
 
-
+    // History
     addHistory(
+        "Intrusion Detected",
         "Laser beam interrupted",
-        "⚠ ALERT",
         true
     );
-
 }
 
 
-/* ================= INITIAL EVENT ================= */
+// ==========================================
+// ADAFRUIT IO INTEGRATION
+// ==========================================
 
-setTimeout(() => {
+const AIO_USERNAME = "PRAVEEN2704";
 
-    addHistory(
-        "Security system initialized",
-        "✓ ONLINE",
-        false
-    );
-
-}, 500);
+const FEED_URL =
+    `https://io.adafruit.com/api/v2/${AIO_USERNAME}/feeds/laser-status/data?limit=1`;
 
 
-/* ================= AUTOMATIC EVENT SYSTEM ================= */
-
-/*
-    DEMO MODE
-
-    Every 5 seconds a new event occurs.
-
-    Event #1
-    Event #2
-    Event #3
-    Event #4
-    ...
-
-    Every 4th event is an intrusion
-    for demonstration.
-*/
-
-let demoEvent = 0;
+// Last processed Adafruit IO event
+let lastDataId = null;
 
 
-setInterval(() => {
+// ==========================================
+// READ ADAFRUIT IO
+// ==========================================
 
-    demoEvent++;
+async function readAdafruitStatus() {
+
+    try {
+
+        const response = await fetch(FEED_URL, {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP Error: " + response.status
+            );
+
+        }
+
+        const data = await response.json();
+
+        // No data
+        if (!data || data.length === 0) {
+            console.log("No Adafruit IO data found.");
+            return;
+        }
 
 
-    if (demoEvent % 4 === 0) {
+        // Latest feed entry
+        const latest = data[0];
 
-        intrusionMode();
+
+        // Prevent duplicate event
+        if (String(latest.id) === String(lastDataId)) {
+            return;
+        }
+
+
+        // Save event ID
+        lastDataId = latest.id;
+
+
+        // Read value
+        const status = String(latest.value)
+            .trim()
+            .toUpperCase();
+
+
+        console.log(
+            "Adafruit IO Status:",
+            status
+        );
+
+
+        // ==================================
+        // STATUS CHECK
+        // ==================================
+
+        if (status === "INTRUSION") {
+
+            intrusionMode();
+
+        }
+
+        else if (status === "SECURE") {
+
+            safeMode();
+
+        }
+
+        else {
+
+            console.log(
+                "Unknown status:",
+                status
+            );
+
+        }
+
 
     }
 
-    else {
+    catch (error) {
 
-        safeMode();
+        console.error(
+            "Adafruit IO Error:",
+            error
+        );
 
     }
+}
 
-}, 5000);
+
+// ==========================================
+// START ADAFRUIT IO MONITORING
+// ==========================================
+
+// Read immediately
+readAdafruitStatus();
+
+
+// Check every 3 seconds
+setInterval(
+    readAdafruitStatus,
+    3000
+);
+
+
+// ==========================================
+// INITIAL SYSTEM STATUS
+// ==========================================
+
+if (systemStatus) {
+    systemStatus.textContent = "CONNECTING";
+}
